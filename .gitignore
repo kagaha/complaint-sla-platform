@@ -1,0 +1,24 @@
+# Java / Maven / Gradle
+target/
+build/
+.gradle/
+*.class
+
+# Node
+node_modules/
+dist/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
+
+# Env and local
+.env
+*.log
+
+# Generator scratch output (final exports in data/ are committed)
+generator/tmp/

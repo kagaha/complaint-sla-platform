@@ -1,0 +1,21 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: complaints
+      POSTGRES_USER: complaints
+      POSTGRES_PASSWORD: complaints
+    ports:
+      - "5432:5432"
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U complaints"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # backend and frontend services will be added as those modules are created
+
+volumes:
+  dbdata:
