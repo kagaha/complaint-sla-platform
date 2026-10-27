@@ -1,0 +1,19 @@
+erDiagram
+    priority_level ||--|{ priority_band : "score range"
+    priority_level ||--|{ sla_matrix : "time limits"
+    priority_level ||--o{ priority_rule : "floor"
+    category ||--o{ keyword_rule : "keywords"
+    team ||--o{ category : owns
+
+    priority_level { char priority_code PK }
+    priority_band { char priority_code PK
+        date effective_from PK }
+    sla_matrix { char priority_code PK
+        date effective_from PK }
+    priority_rule { varchar rule_code PK
+        date effective_from PK
+        char floor_priority FK }
+    keyword_rule { int keyword_id PK
+        char category_code FK }
+    category { char category_code PK }
+    team { varchar team_code PK }

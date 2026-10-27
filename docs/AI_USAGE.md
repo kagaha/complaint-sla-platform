@@ -33,6 +33,8 @@ Decisions I made while reviewing the AI's drafts:
 - I asked to remove less important factors (public channel, frequent complainer, rude staff report, refund amount at risk) to keep the rules explainable.
 - I asked for plainer wording in the floor examples after "calm customer with a legal threat" was confusing, and the document now defines tone and legal threat as independent checks.
 
+Schema work: I confirmed the defaults for customer fields, product catalogue size and agent counts. The migrations were applied to a real PostgreSQL 16 and the 25-check smoke test passes. I should re-run `scripts/test_schema.sh` myself and read the data dictionary before the walkthrough.
+
 Validation still to do (to be filled in with real results): reproducibility check, validator precision and recall, priority distribution calibration, unit tests for the rules engine.
 
 ## Cases where AI was wrong or needed correcting
@@ -42,6 +44,8 @@ Validation still to do (to be filled in with real results): reproducibility chec
 | Added category base points as a separate step that duplicated the factor list | Questioned it, and it was merged into one factor table |
 | Used a confusing "calm customer with a legal threat" example | Asked for clarification, and the wording was changed and definitions were added |
 | Suggested a P1 threshold of 110 as an untested guess | Replaced it with 100, to be calibrated on the generated data |
+| Suggested a P1 threshold of 110 as an untested guess | Replaced it with 100, to be calibrated on the generated data |
+| The first version of the schema smoke test silently dropped any check that wrongly passed (the helper rolled back its own result row), so a broken constraint would not have been reported | Found because the report showed 20 rows instead of 25. Helpers were rewritten, the test now fails if the count is not 25, and a deliberate constraint removal was confirmed to produce a FAIL |
 
 ## Log
 
@@ -52,3 +56,4 @@ Validation still to do (to be filled in with real results): reproducibility chec
 | 2026-10-26 | Rules v1.2 and v1.3: merged base points into factors, removed minor factors, merged tables, P1 threshold 100 | Applied my decisions | I questioned the separate base-points step, chose the P1 threshold of 100, and asked to drop public channel and other minor factors |
 | 2026-10-26 | Rules v1.3.1 and v1.3.2: floor examples, wording clarification, session summary | Drafted | I asked for the floor examples and the clearer wording |
 | 2026-10-27 | Repo naming and structure, AI usage and prompt history files | Drafted | Reviewed |
+| 2026-10-27 | Database schema (24 tables), reference data, data dictionary, ER diagrams, schema smoke test | Drafted and tested on PostgreSQL | I confirmed the table design defaults. To do: re-run the schema test and review the dictionary myself |

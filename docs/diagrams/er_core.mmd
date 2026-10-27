@@ -1,0 +1,36 @@
+erDiagram
+    customer ||--o{ customer_order : places
+    customer ||--o{ complaint : raises
+    customer_order ||--|{ order_item : contains
+    product ||--o{ order_item : "appears in"
+    customer_order |o--o{ complaint : "is about"
+    product |o--o{ complaint : "is about"
+    complaint |o--o{ complaint : "parent of (repeat)"
+    category ||--o{ complaint : classifies
+    priority_level ||--o{ complaint : "priority"
+    team ||--o{ category : owns
+    team ||--o{ support_agent : has
+    support_agent |o--o| app_user : "login"
+
+    customer { varchar customer_id PK }
+    customer_order { varchar order_id PK
+        varchar customer_id FK }
+    order_item { varchar order_id PK
+        smallint line_no PK
+        varchar product_id FK }
+    product { varchar product_id PK }
+    complaint { varchar complaint_id PK
+        varchar customer_id FK
+        varchar order_id FK
+        varchar product_id FK
+        varchar parent_complaint_id FK
+        char category_code FK
+        char priority_code FK }
+    category { char category_code PK
+        varchar team_code FK }
+    priority_level { char priority_code PK }
+    team { varchar team_code PK }
+    support_agent { varchar agent_id PK
+        varchar team_code FK }
+    app_user { int user_id PK
+        varchar agent_id FK }

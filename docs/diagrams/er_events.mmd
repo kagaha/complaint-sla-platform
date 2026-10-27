@@ -1,0 +1,35 @@
+erDiagram
+    complaint ||--o{ complaint_message : has
+    complaint ||--|{ status_event : "history of"
+    complaint ||--|{ assignment : "ownership history"
+    complaint ||--|| sla_clock : "timed by"
+    sla_clock ||--o{ sla_pause_event : "paused by"
+    complaint ||--o{ escalation_event : escalates
+    complaint ||--o{ resolution : "resolved by (per cycle)"
+    resolution ||--o| survey : "followed by"
+    complaint ||--o{ survey : "feedback on"
+
+    complaint { varchar complaint_id PK }
+    complaint_message { varchar message_id PK
+        varchar complaint_id FK }
+    status_event { varchar event_id PK
+        varchar complaint_id FK }
+    assignment { varchar assignment_id PK
+        varchar complaint_id FK
+        varchar agent_id FK "to support_agent"
+        varchar team_code FK "to team" }
+    sla_clock { varchar sla_id PK
+        varchar complaint_id FK }
+    sla_pause_event { varchar pause_id PK
+        varchar sla_id FK }
+    escalation_event { varchar escalation_id PK
+        varchar complaint_id FK
+        char level_code FK "to escalation_rule"
+        varchar notified_agent FK "to support_agent" }
+    resolution { varchar resolution_id PK
+        varchar complaint_id FK
+        varchar resolved_by FK "to support_agent"
+        varchar approved_by FK "to support_agent" }
+    survey { varchar survey_id PK
+        varchar resolution_id FK
+        varchar complaint_id FK }
